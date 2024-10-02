@@ -53,7 +53,7 @@ const LoginScreen = ({navigation}) => {
       setDataload(!loading);
     } catch (error) {
       Alert.alert("Login failed", error.message);
-      setDataload(!loading);
+      setDataload(false);
     }
   };
   return (

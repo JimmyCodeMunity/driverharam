@@ -1,26 +1,126 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../context/AuthContext";
 
-const SettingScreen = ({ navigation }) => {
-  const { logout } = useContext(AuthContext);
+const SettingsScreen = ({ navigation }) => {
+  const [isOnline, setIsOnline] = useState(false);
+
+  const { userToken, isLoggedIn, logout } = useContext(AuthContext);
+  const { userdata } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+
+  // handle logout
   const handleLogout = async () => {
     await logout();
-    navigation.replace("Login");
+    // navigation.replace("Login");
   };
+  // useEffect(() => {
+  //   const loadUserdata = async () => {
+  //     try {
+  //       // Fetch userdata from AsyncStorage
+  //       const storedUserdata = await AsyncStorage.getItem("userdata");
+  //       // console.log("stored", storedUserdata);
+  //       if (storedUserdata) {
+  //         setUserdata(JSON.parse(storedUserdata));
+  //         // setDriverid(JSON.parse(storedUserdata.userdata._id));
+  //         // console.log("driverid",storedUserdata.userdata._id)
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to load user data from AsyncStorage", error);
+  //     } finally {
+  //       setLoading(false); // Stop loading once data is fetched
+  //     }
+  //   };
+
+  //   loadUserdata();
+  // }, []);
   return (
-    <View className="flex-1 justify-center items-center">
-      <Text>SettingScreen</Text>
-      <TouchableOpacity
-        onPress={handleLogout}
-        className="h-12 justify-center items-center w-60 rounded-md bg-red-500"
-      >
-        <Text className="text-white">Logout</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView className="flex-1">
+      <View className="justify-center items-center space-y-1 mt-16">
+        <View className="rounded-full bg-slate-200 h-16 w-16 justify-center items-center">
+          <Icon name="account" color="gray" size={30} />
+        </View>
+
+        <Text className="text-2xl text-black font-semibold">
+          {userdata?.userdata?.name}
+        </Text>
+
+        <View className="flex-row items-center space-x-1">
+          <Icon name="star" color="green" size={25} />
+          <Text className="text-lg font-semibold">5.00</Text>
+          <Text className="text-lg text-slate-500 font-normal">Rating</Text>
+        </View>
+      </View>
+
+      <View className="w-full px-4 bg-white rounded-xl mt-12">
+        <Pressable onPress={()=>navigation.navigate("Profile")} className="flex-row items-center justify-between border border-r-0 border-l-0 border-t-0 border-slate-300 py-3">
+          <View className="flex-row space-x-2">
+            <Icon name="account" color="gray" size={25} />
+            <Text className="text-slate-700 text-lg">Profile</Text>
+          </View>
+          <View>
+            <Icon name="chevron-right" color="grey" size={25} />
+          </View>
+        </Pressable>
+        <Pressable onPress={()=>navigation.navigate("Conditions")} className="flex-row items-center justify-between border border-r-0 border-l-0 border-t-0 border-slate-300 py-3">
+          <View className="flex-row space-x-2">
+            <Icon name="information" color="gray" size={25} />
+            <Text className="text-slate-700 text-lg">Terms & Conditions.</Text>
+          </View>
+          <View>
+            <Icon name="chevron-right" color="grey" size={25} />
+          </View>
+        </Pressable>
+        <Pressable onPress={()=>navigation.navigate("Trips")}
+          className="flex-row items-center justify-between py-3"
+        >
+          <View className="flex-row space-x-2">
+            <Icon name="road" color="gray" size={25} />
+            <Text className="text-slate-700 text-lg">Trips</Text>
+          </View>
+          <View>
+            <Icon name="chevron-right" color="grey" size={25} />
+          </View>
+        </Pressable>
+      </View>
+      <View className="w-full px-4 bg-white rounded-xl my-12">
+        <Pressable onPress={()=>navigation.navigate("Policy")} className="flex-row items-center justify-between border border-r-0 border-l-0 border-t-0 border-slate-300 py-3">
+          <View className="flex-row space-x-2">
+            <Icon name="book" color="gray" size={25} />
+            <Text className="text-slate-700 text-lg">Privacy Policy</Text>
+          </View>
+          <View>
+            <Icon name="chevron-right" color="grey" size={25} />
+          </View>
+        </Pressable>
+        <Pressable onPress={()=>navigation.navigate("Policy")} className="flex-row items-center justify-between border border-r-0 border-l-0 border-t-0 border-slate-300 py-3">
+          <View className="flex-row space-x-2">
+            <Icon name="information" color="gray" size={25} />
+            <Text className="text-slate-700 text-lg">About</Text>
+          </View>
+          <View>
+            <Icon name="chevron-right" color="grey" size={25} />
+          </View>
+        </Pressable>
+        <Pressable
+          onPress={handleLogout}
+          className="flex-row items-center justify-between py-3"
+        >
+          <View className="flex-row space-x-2">
+            <Icon name="logout" color="gray" size={25} />
+            <Text className="text-red-400 text-lg">Logout</Text>
+          </View>
+          <View>
+            <Icon name="chevron-right" color="grey" size={25} />
+          </View>
+        </Pressable>
+      </View>
+    </SafeAreaView>
   );
 };
 
-export default SettingScreen;
+export default SettingsScreen;
 
 const styles = StyleSheet.create({});

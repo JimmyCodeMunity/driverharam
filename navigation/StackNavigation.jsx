@@ -11,6 +11,11 @@ import RegisterScreen from "../screens/RegisterScreen";
 import SuccessScreen from "../screens/SuccessScreen";
 import { AuthContext, AuthProvider } from "../context/AuthContext";
 import SettingScreen from "../screens/SettingScreen";
+import RideDecideScreen from "../screens/RideDecideScreen";
+import RideStartedScreen from "../screens/RideStartedScreen";
+import StartTrip from "../screens/StartTrip";
+import PolicyScreen from "../screens/PolicyScreen";
+import ConditionsScreen from "../screens/ConditionsScreen";
 
 const Stack = createStackNavigator();
 
@@ -57,8 +62,38 @@ const StackNavigation = () => {
           <Stack.Screen
             name="Settings"
             component={SettingScreen}
-            options={{ headerShown: true, presentation: "fullScreenModal" }}
+            options={{ headerShown:false, presentation: "fullscreenmodal" }}
           />
+          <Stack.Screen
+            name="Decision"
+            component={RideDecideScreen}
+            options={{ headerShown: false, presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="Started"
+            component={RideStartedScreen}
+            options={{ headerShown: false, presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="StartTrip"
+            component={StartTrip}
+            options={{ headerShown: false, presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="Policy"
+            component={PolicyScreen}
+            options={{ headerShown: false, presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="Conditions"
+            component={ConditionsScreen}
+            options={{ headerShown: false, presentation: "modal" }}
+          />
+          {/* <Stack.Screen
+            name="Decision"
+            component={RideDetail}
+            options={{ headerShown: false, presentation: "modal" }}
+          /> */}
         </>
       )}
 
