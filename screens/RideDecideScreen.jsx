@@ -2,7 +2,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Image } from "react-native";
 import { io } from "socket.io-client";
-const socket = io.connect("http://192.168.1.18:8000");
+import { SOCKET_URL } from "../config";
+const socket = io.connect(SOCKET_URL);
+// const socket = io.connect("https://api.haramad.co.ke");
+// const socket = io.connect("http://192.168.1.18:8000");
 
 const RideDecideScreen = ({ navigation, route }) => {
   const { trip } = route.params;

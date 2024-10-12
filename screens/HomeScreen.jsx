@@ -20,11 +20,14 @@ import { io } from "socket.io-client";
 import { PaperProvider, Modal, Portal, Button } from "react-native-paper";
 import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { BASE_URL } from "../config";
+import { BASE_URL, SOCKET_URL } from "../config";
 // const socket = io.connect("https://sockettestserver.vercel.app/");
 // const socket = io.connect("https://charmed-dog-marble.glitch.me/");
 // const socket = io.connect("http://192.168.0.100:8000");
-const socket = io.connect("http://192.168.1.18:8000");
+// const socket = io.connect("http://192.168.0.100:8000");
+// const socket = io.connect("http://192.168.1.18:8000");
+const socket = io.connect(SOCKET_URL);
+// const socket = io.connect("https://api.haramad.co.ke");
 
 const wh = Dimensions.get("window").height;
 
@@ -106,16 +109,7 @@ const HomeScreen = ({ navigation }) => {
     socket.emit("register", userId);
 });
 
-  //join room
-  const joinRoom = () => {
-    if (room !== "") {
-      socket.emit("join_room", { room });
-    }
-  };
-  const sendMessage = () => {
-    socket.emit("send_message", { message });
-    // socket.emit("send_message", { message, room });
-  };
+  
 
   socket.on("rideRequest", (data) => {
     // const { userId, startLocation, endLocation } = data;
@@ -146,6 +140,7 @@ const HomeScreen = ({ navigation }) => {
       setIsOnline(true);
       console.warn("driverdata", driver);
     });
+
     socket.on("trip-request", (trip) => {
       console.log(trip)
       navigation.navigate("Decision",{
@@ -425,6 +420,7 @@ const HomeScreen = ({ navigation }) => {
         if (storedIsOnline !== undefined) {
           setIsOnline(storedIsOnline);
           if (storedIsOnline) {
+            console.log("after checking online status we found", storedIsOnline);
             // If the driver is online, emit the "driver-go-online" event
             socket.emit("driver-go-online", {
               driverId:mydriverid,

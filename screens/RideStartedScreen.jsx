@@ -5,14 +5,17 @@ import {
   Text,
   View,
   Image,
-  Linking, // Import Linking API
+  Linking,
+  TouchableOpacity // Import Linking API
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { BASE_URL } from "../config";
+import { BASE_URL,SOCKET_URL } from "../config";
 import axios from "axios";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { io } from "socket.io-client";
-const socket = io.connect("http://192.168.1.18:8000");
+const socket = io.connect(SOCKET_URL);
+// const socket = io.connect("https://api.haramad.co.ke");
+// const socket = io.connect("http://192.168.1.18:8000");
 
 const RideStartedScreen = ({ navigation, route }) => {
   const { trip } = route.params;
@@ -71,6 +74,7 @@ const RideStartedScreen = ({ navigation, route }) => {
     socket.emit("start-trip", {
       tripId
     });
+    // console.log("started",tripId)
     // navigation.navigate("StartTrip", {
     //   originloc: originloc,
     //   destinationloc: destinationloc,
@@ -122,14 +126,14 @@ const RideStartedScreen = ({ navigation, route }) => {
             </View>
 
             <View className="w-full justify-center items-center">
-              <Pressable
+              <TouchableOpacity
                 onPress={() =>
                   startTheTrip(trip._id)
                 }
                 className="h-12 w-80 rounded-md bg-red-500 justify-center items-center"
               >
                 <Text className="text-white text-xl">Start Trip</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         )}
